@@ -26,11 +26,16 @@ function buildMetadata(sample) {
 function buildCharts(sample) {
 
   d3.json('/samples/'+sample).then((data) => {
-    console.log(data)
- 
+ var simpleName = []
+ data.otu_labels.forEach( label => {
+   var splitString = label.split(';')
+   simpleName.push(splitString[splitString.length - 1])
+
+ })
+ console.log(simpleName)
   var plotData = [{
     values: data.sample_values,
-    labels: data.otu_labels,
+    labels: simpleName,
     type: 'pie'
   }];
   
@@ -38,7 +43,7 @@ function buildCharts(sample) {
     height: 400,
     width: 500
   };
-  Plotly.newPlot('pie', plotData, layout); 
+  Plotly.newPlot('pie', plotData, layout);
 
 
  })
